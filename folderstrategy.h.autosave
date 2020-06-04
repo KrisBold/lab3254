@@ -1,0 +1,12 @@
+#ifndef FOLDERSTRATEGY_H
+#define FOLDERSTRATEGY_H
+#include "strategy.h"
+
+class FolderSrtategy: public Strategy
+{
+public:
+    FolderSrtategy(){};
+    void DoStrategy(Object&  object);
+};
+
+#endif // FOLDERSTRATEGY_H
