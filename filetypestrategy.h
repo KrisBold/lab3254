@@ -3,10 +3,11 @@
 #define FOLDERSTRATEGY_H
 #include "strategy.h"
 
-class FileTypeStrategy
+class FileTypeStrategy: public Strategy
 {
 public:
-
+  FileTypeStrategy(){};
+  void DoStrategy(QString&  path);
 };
 
 #endif // FILETYPESTRATEGY_H

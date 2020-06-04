@@ -8,6 +8,9 @@ quint32 FolderSrtategy:: sizeFolder ( QString path )
 
     quint32 finalsize = 0;
 
+    currentFolder.setFilter( QDir::AllEntries);//фильтр
+    currentFolder.setSorting( QDir::Name );//сортировка по имени
+
     QFileInfoList infolist( currentFolder.entryInfoList() );//информация о каждой записи
 
     for( QFileInfo i: infolist )
@@ -32,6 +35,9 @@ quint32 FolderSrtategy:: sizeListFolder ( QString path )
 
     quint32 finalsize = 0;
 
+    currentfolder.setFilter( QDir::AllEntries);
+    currentfolder.setSorting( QDir::Name );
+
     QFileInfoList infolist( currentfolder.entryInfoList() );
 
     for ( QFileInfo i: infolist )
@@ -55,8 +61,10 @@ void FolderSrtategy::DoStrategy(QString&  path)
     QDir currentfolder(path);
     Object final;
 
-    QFileInfoList infolist( currentfolder.entryInfoList() );
+    currentfolder.setFilter( QDir::Dirs);
+    currentfolder.setSorting( QDir::Name );
 
+    QFileInfoList infolist( currentfolder.entryInfoList() );
     for( QFileInfo i: infolist )
     {
         QString iname( i.fileName() );
