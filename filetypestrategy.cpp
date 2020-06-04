@@ -1,0 +1,1 @@
+#include "filetypestrategy.h"
