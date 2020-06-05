@@ -8,6 +8,7 @@ class FileTypeStrategy: public Strategy
 public:
   FileTypeStrategy(){};
   void DoStrategy(QString&  path);
+  Object sizeType (QString path, Object &tmp);
 };
 
 #endif // FILETYPESTRATEGY_H

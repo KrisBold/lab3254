@@ -6,8 +6,13 @@
 
 struct Object
 {
-  QStringList objName;
-  QVector<qint32> objSize;
+  QString name;
+  qint64 size;
+  double percent;
+  Object(QString name, int size, double percent):name(name), size(size), percent(percent){};
+  QString getName() {return name;};
+  qint64 getSize(){ return size;};
+  double getPer(){ return percent;};
 };
 
 class Strategy
