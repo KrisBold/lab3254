@@ -1,13 +1,12 @@
 #include "folderstrategy.h"
 #include <QTextStream>
 //вложенные папки не выводить
-QVector<Object*> objs;
+QVector<Object> objs;
 
 qint64 FolderSrtategy:: sizeFolder ( QString path )
 {
     QTextStream cin(stdin), cout(stdout);
     QDir currentFolder( path );
-
     quint32 finalsize = 0;
 
     QFileInfoList infolist( currentFolder.entryInfoList() );//информация о каждой записи
@@ -21,7 +20,7 @@ qint64 FolderSrtategy:: sizeFolder ( QString path )
         if(!i.isDir())
         {
             //cout<<"File: "<<iname<<" Size:"<<i.size()<<endl;
-            objs.append(new Object (iname, i.size(), 0));
+            objs.append(Object (iname, i.size(), 0));
             finalsize += i.size();
        }
         else continue;
@@ -33,7 +32,6 @@ qint64 FolderSrtategy:: sizeListFolder ( QString path)
 {
     QTextStream cin(stdin), cout(stdout);
     QDir currentfolder( path );
-
     quint32 finalsize = 0;
 
     QFileInfoList infolist( currentfolder.entryInfoList() );
@@ -51,7 +49,7 @@ qint64 FolderSrtategy:: sizeListFolder ( QString path)
     }
 
     //cout<<"Directory: "<<path<<"  Size:"<<finalsize<<endl;
-    objs.append(new Object (path, finalsize, 0));
+    objs.append(Object (path, finalsize, 0));
     return finalsize;
 }
 
@@ -60,6 +58,12 @@ void FolderSrtategy::DoStrategy(QString&  path)
     QTextStream cin(stdin), cout(stdout);
     QDir currentfolder(path);
     qint64 size1=0;
+
+    if (!currentfolder.exists())
+    {
+        cout<< "Path doesn't exist" << endl;
+        return;
+    }
 
     QFileInfoList infolist( currentfolder.entryInfoList() );
 
@@ -76,16 +80,16 @@ void FolderSrtategy::DoStrategy(QString&  path)
     }
     qint64 size2= sizeFolder(path);
 
-    double size=size1+size2;
+    double finalsize=size1+size2;
 
-    cout<<"Print:"<<size<<endl;
+    cout<<"Print:"<<finalsize<<endl;
     for(auto j:objs)
     {
-        double per=double(100*(j->getSize() / size));
+        double per=double(100*(j.getSize() / finalsize));
         if(per!=0 && per<0.01)
         {
-          cout<<j->getName()<<" Size:"<<j->getSize()<<" Per: <0.01%"<<endl;
+          cout<<j.getName()<<" Size:"<<j.getSize()<<" Per: <0.01%"<<endl;
         }
-        else cout<<j->getName()<<" Size:"<<j->getSize()<<" Per:"<<QString::number(per,'f', 2)<<endl;
+        else cout<<j.getName()<<" Size:"<<j.getSize()<<" Per:"<<QString::number(per,'f', 2)<<endl;
     }
 }

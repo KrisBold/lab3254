@@ -8,7 +8,8 @@ class FileTypeStrategy: public Strategy
 public:
   FileTypeStrategy(){};
   void DoStrategy(QString&  path);
-  Object sizeType (QString path, Object &tmp);
+protected:
+  void sizeType(const QString &path, QHash<QString, int> &hash) ;
 };
 
 #endif // FILETYPESTRATEGY_H
