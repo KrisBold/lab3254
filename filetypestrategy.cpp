@@ -1,8 +1,6 @@
 #include "filetypestrategy.h"
 #include <QTextStream>
 
-QVector<Object> objects;
-
 //void FileTypeStrategy:: sizeType (QString path)
 //{
 //    QTextStream cin(stdin), cout(stdout);
@@ -55,7 +53,6 @@ void FileTypeStrategy::sizeType(const QString &path, QHash<QString, int> &hash)
 
 void FileTypeStrategy::DoStrategy (QString &path)
 {
-    QTextStream cin(stdin), cout(stdout);
     QVector<QString> types;
     int finalSize = 0;
     QDir currentFolder(path);
@@ -63,7 +60,6 @@ void FileTypeStrategy::DoStrategy (QString &path)
 
     if (!currentFolder.exists())
     {
-        cout<< "Path doesn't exist" << endl;
         return;
     }
 
@@ -102,6 +98,11 @@ void FileTypeStrategy::DoStrategy (QString &path)
         objects.append(Object(QFileInfo(path).suffix(), path.size(), 100));
     }
 
+}
+
+void FileTypeStrategy::Print()
+{
+    QTextStream cin(stdin), cout(stdout);
     for(auto j: objects)
     {
         if(j.getPer()!=0 && j.getPer()<0.01)
@@ -111,5 +112,3 @@ void FileTypeStrategy::DoStrategy (QString &path)
         else cout<<j.getName()<<" size:"<<j.getSize()<<"byte Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
     }
 }
-
-

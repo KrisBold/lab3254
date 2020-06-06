@@ -1,11 +1,8 @@
 #include "folderstrategy.h"
 #include <QTextStream>
 
-QVector<Object> objs;
-
 qint64 FolderSrtategy:: sizeFolder ( QString path )
 {
-    QTextStream cin(stdin), cout(stdout);
     QDir currentFolder( path );
     quint32 finalsize = 0;
 
@@ -19,7 +16,6 @@ qint64 FolderSrtategy:: sizeFolder ( QString path )
 
         if(!i.isDir())
         {
-            //cout<<"File: "<<iname<<" Size:"<<i.size()<<endl;
             objs.append(Object (iname, i.size(), 0));
             finalsize += i.size();
        }
@@ -30,7 +26,6 @@ qint64 FolderSrtategy:: sizeFolder ( QString path )
 
 qint64 FolderSrtategy:: sizeListFolder ( QString path)
 {
-    QTextStream cin(stdin), cout(stdout);
     QDir currentfolder( path );
     quint32 finalsize = 0;
     QFileInfoList infolist( currentfolder.entryInfoList() );
@@ -47,7 +42,6 @@ qint64 FolderSrtategy:: sizeListFolder ( QString path)
             finalsize += i.size();
     }
 
-    //cout<<"Directory: "<<path<<"  Size:"<<finalsize<<endl;
     if(path.count(QRegExp("/"))<2)
     {
        objs.append(Object (path, finalsize, 0));
@@ -58,12 +52,10 @@ qint64 FolderSrtategy:: sizeListFolder ( QString path)
 
 void FolderSrtategy::DoStrategy(QString&  path)
 {
-    QTextStream cin(stdin), cout(stdout);
     QDir currentfolder(path);
 
     if (!currentfolder.exists())
     {
-        cout<< "Path doesn't exist" << endl;
         return;
     }
 
@@ -81,7 +73,11 @@ void FolderSrtategy::DoStrategy(QString&  path)
         }
     }
     sizeFolder(path);
+}
 
+void FolderSrtategy::Print()
+{
+    QTextStream cin(stdin), cout(stdout);
     double finalsize=0;
 
     for(auto j:objs)

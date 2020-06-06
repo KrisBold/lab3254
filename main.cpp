@@ -14,9 +14,11 @@ int main(int argc, char *argv[])
     QString path;
     FileTypeStrategy strat1; FolderSrtategy strat2;
     cin>>path;
-    cout<<"Srtategy FOLDERS:"<<endl;
+    cout<<"\nSrtategy FOLDERS:"<<endl;
     strat2.DoStrategy(path);
-    cout<<"Srtategy TYPES:"<<endl;
+    strat2.Print();
+    cout<<"\nSrtategy TYPES:"<<endl;
     strat1.DoStrategy(path);
+    strat1.Print();
     return a.exec();
 }
