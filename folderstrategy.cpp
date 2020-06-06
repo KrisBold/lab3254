@@ -59,6 +59,18 @@ void FolderSrtategy::DoStrategy(QString&  path)
         return;
     }
 
+    if (currentfolder.isEmpty())
+    {
+        objs.append(Object(path, 0, 100));
+        return;
+    }
+
+    if (QFileInfo(path).dir().isEmpty())
+    {
+        objs.append(Object(path, 0, 100));
+        return ;
+    }
+
     QFileInfoList infolist( currentfolder.entryInfoList() );
 
     for( QFileInfo i: infolist )
@@ -73,11 +85,6 @@ void FolderSrtategy::DoStrategy(QString&  path)
         }
     }
     sizeFolder(path);
-}
-
-void FolderSrtategy::Print()
-{
-    QTextStream cin(stdin), cout(stdout);
     double finalsize=0;
 
     for(auto j:objs)
@@ -85,14 +92,9 @@ void FolderSrtategy::Print()
         finalsize+=j.getSize();
     }
 
-    cout<<"finalsize: "<<finalsize<<endl;
     for(auto j:objs)
     {
-        double per=double(100*(j.getSize() / finalsize));
-        if(per!=0 && per<0.01)
-        {
-          cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per: <0.01%"<<endl;
-        }
-        else cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:"<<QString::number(per,'f', 2)<<"%"<<endl;
+        j.percent=double(100*(j.getSize() / finalsize));
     }
 }
+

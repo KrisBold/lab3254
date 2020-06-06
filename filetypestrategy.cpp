@@ -63,10 +63,21 @@ void FileTypeStrategy::DoStrategy (QString &path)
         return;
     }
 
+    if (currentFolder.isEmpty())
+    {
+        objects.append(Object(path, 0, 100));
+        return;
+    }
+
     if (QFileInfo(path).isDir())
     {
         for(QFileInfo i: currentFolder.entryInfoList(QDir::Dirs))
         {
+            if (QFileInfo(path).dir().isEmpty())
+            {
+                objects.append(Object(path, 0, 100));
+                return ;
+            }
             QString iname( i.fileName() );
             if ( iname == "." || iname == ".." || iname.isEmpty() )
                 continue;
@@ -100,15 +111,3 @@ void FileTypeStrategy::DoStrategy (QString &path)
 
 }
 
-void FileTypeStrategy::Print()
-{
-    QTextStream cin(stdin), cout(stdout);
-    for(auto j: objects)
-    {
-        if(j.getPer()!=0 && j.getPer()<0.01)
-        {
-           cout<<j.getName()<<" size:"<<j.getSize()<<"byte Per:<0.01%"<<endl;
-        }
-        else cout<<j.getName()<<" size:"<<j.getSize()<<"byte Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
-    }
-}

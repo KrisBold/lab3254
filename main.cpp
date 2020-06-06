@@ -6,7 +6,6 @@
 #include "folderstrategy.h"
 #include "filetypestrategy.h"
 
-//C:\Projects/45
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -14,11 +13,37 @@ int main(int argc, char *argv[])
     QString path;
     FileTypeStrategy strat1; FolderSrtategy strat2;
     cin>>path;
+    double finalsize=0;
+
     cout<<"\nSrtategy FOLDERS:"<<endl;
     strat2.DoStrategy(path);
-    strat2.Print();
+
+    for(auto j:strat2.objs)
+    {
+        finalsize+=j.getSize();
+    }
+
+    for(auto j:strat2.objs)
+    {
+        j.percent=double(100*(j.getSize() / finalsize));
+        if(j.getPer()!=0 && j.getPer()<0.01)
+        {
+          cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per: <0.01%"<<endl;
+        }
+        else cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
+    }
+
     cout<<"\nSrtategy TYPES:"<<endl;
     strat1.DoStrategy(path);
-    strat1.Print();
+
+    for(auto j: strat1.objects)
+    {
+        if(j.getPer()!=0 && j.getPer()<0.01)
+        {
+           cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:<0.01%"<<endl;
+        }
+        else cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
+    }
+
     return a.exec();
 }
