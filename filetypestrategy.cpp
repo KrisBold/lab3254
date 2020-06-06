@@ -61,6 +61,12 @@ void FileTypeStrategy::DoStrategy (QString &path)
     QDir currentFolder(path);
     QHash<QString, int> hash;
 
+    if (!currentFolder.exists())
+    {
+        cout<< "Path doesn't exist" << endl;
+        return;
+    }
+
     if (QFileInfo(path).isDir())
     {
         for(QFileInfo i: currentFolder.entryInfoList(QDir::Dirs))
@@ -100,9 +106,9 @@ void FileTypeStrategy::DoStrategy (QString &path)
     {
         if(j.getPer()!=0 && j.getPer()<0.01)
         {
-           cout<<j.getName()<<" size:"<<j.getSize()<<" Per:<0.01%"<<endl;
+           cout<<j.getName()<<" size:"<<j.getSize()<<"byte Per:<0.01%"<<endl;
         }
-        else cout<<j.getName()<<" size:"<<j.getSize()<<" Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
+        else cout<<j.getName()<<" size:"<<j.getSize()<<"byte Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
     }
 }
 

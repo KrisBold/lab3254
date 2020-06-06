@@ -1,6 +1,6 @@
 #include "folderstrategy.h"
 #include <QTextStream>
-//вложенные папки не выводить
+
 QVector<Object> objs;
 
 qint64 FolderSrtategy:: sizeFolder ( QString path )
@@ -33,7 +33,6 @@ qint64 FolderSrtategy:: sizeListFolder ( QString path)
     QTextStream cin(stdin), cout(stdout);
     QDir currentfolder( path );
     quint32 finalsize = 0;
-
     QFileInfoList infolist( currentfolder.entryInfoList() );
 
     for ( QFileInfo i: infolist )
@@ -49,7 +48,11 @@ qint64 FolderSrtategy:: sizeListFolder ( QString path)
     }
 
     //cout<<"Directory: "<<path<<"  Size:"<<finalsize<<endl;
-    objs.append(Object (path, finalsize, 0));
+    if(path.count(QRegExp("/"))<2)
+    {
+       objs.append(Object (path, finalsize, 0));
+    }
+
     return finalsize;
 }
 
@@ -57,7 +60,6 @@ void FolderSrtategy::DoStrategy(QString&  path)
 {
     QTextStream cin(stdin), cout(stdout);
     QDir currentfolder(path);
-    qint64 size1=0;
 
     if (!currentfolder.exists())
     {
@@ -75,21 +77,26 @@ void FolderSrtategy::DoStrategy(QString&  path)
 
         if ( i.isDir() )
         {
-           size1=sizeListFolder(path+"/"+iname);
+           sizeListFolder(path+"/"+iname);
         }
     }
-    qint64 size2= sizeFolder(path);
+    sizeFolder(path);
 
-    double finalsize=size1+size2;
+    double finalsize=0;
 
-    cout<<"Print:"<<finalsize<<endl;
+    for(auto j:objs)
+    {
+        finalsize+=j.getSize();
+    }
+
+    cout<<"finalsize: "<<finalsize<<endl;
     for(auto j:objs)
     {
         double per=double(100*(j.getSize() / finalsize));
         if(per!=0 && per<0.01)
         {
-          cout<<j.getName()<<" Size:"<<j.getSize()<<" Per: <0.01%"<<endl;
+          cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per: <0.01%"<<endl;
         }
-        else cout<<j.getName()<<" Size:"<<j.getSize()<<" Per:"<<QString::number(per,'f', 2)<<endl;
+        else cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:"<<QString::number(per,'f', 2)<<"%"<<endl;
     }
 }

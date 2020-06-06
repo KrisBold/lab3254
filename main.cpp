@@ -6,8 +6,7 @@
 #include "folderstrategy.h"
 #include "filetypestrategy.h"
 
-
-               //C:\Projects\45
+//C:\Projects/45
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -15,6 +14,9 @@ int main(int argc, char *argv[])
     QString path;
     FileTypeStrategy strat1; FolderSrtategy strat2;
     cin>>path;
+    cout<<"Srtategy FOLDERS:"<<endl;
     strat2.DoStrategy(path);
+    cout<<"Srtategy TYPES:"<<endl;
+    strat1.DoStrategy(path);
     return a.exec();
 }
