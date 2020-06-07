@@ -1,35 +1,6 @@
 #include "filetypestrategy.h"
 #include <QTextStream>
 
-//void FileTypeStrategy:: sizeType (QString path)
-//{
-//    QTextStream cin(stdin), cout(stdout);
-//    QDir currentFolder( path );
-//
-//    QFileInfoList infolist( currentFolder.entryInfoList() );
-//
-//    for( QFileInfo i: infolist )
-//    {
-//        QString iname( i.fileName() );
-//        if ( iname == "." || iname == ".." || iname.isEmpty() )
-//            continue;
-//
-//        if(i.isDir())
-//        {
-//            sizeType( path+"/"+iname );
-//        }
-//
-//        if(!i.isDir())
-//        {
-//           objects.append(new Object (iname, i.size(), 0, i.suffix()));
-//        }
-//    }
-//    for( auto j: types)
-//    {
-//        cout<<j->getName()<<" size:"<<j->getSize()<<" type:"<<j->getType()<<endl;
-//    }
-//}
-//
 void FileTypeStrategy::sizeType(const QString &path, QHash<QString, int> &hash)
 {
     QDir currentFolder(path);
@@ -107,6 +78,11 @@ void FileTypeStrategy::DoStrategy (QString &path)
     else
     {
         objects.append(Object(QFileInfo(path).suffix(), path.size(), 100));
+    }
+
+    if(objects.size()==0)
+    {
+        objects.append(Object(path, 0, 100));
     }
 
 }

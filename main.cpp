@@ -13,19 +13,12 @@ int main(int argc, char *argv[])
     QString path;
     FileTypeStrategy strat1; FolderSrtategy strat2;
     cin>>path;
-    double finalsize=0;
 
     cout<<"\nSrtategy FOLDERS:"<<endl;
     strat2.DoStrategy(path);
 
     for(auto j:strat2.objs)
     {
-        finalsize+=j.getSize();
-    }
-
-    for(auto j:strat2.objs)
-    {
-        j.percent=double(100*(j.getSize() / finalsize));
         if(j.getPer()!=0 && j.getPer()<0.01)
         {
           cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per: <0.01%"<<endl;
@@ -40,7 +33,7 @@ int main(int argc, char *argv[])
     {
         if(j.getPer()!=0 && j.getPer()<0.01)
         {
-           cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:<0.01%"<<endl;
+           cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per: <0.01%"<<endl;
         }
         else cout<<j.getName()<<" Size:"<<j.getSize()<<"byte Per:"<<QString::number(j.getPer(),'f', 2)<<"%"<<endl;
     }
