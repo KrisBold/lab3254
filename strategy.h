@@ -1,27 +1,41 @@
 #ifndef STRATEGY_H
 #define STRATEGY_H
 #include <QDir>
+#include <QFileSystemModel>
 #include <QStringList>
 #include <QVector>
 
 struct Object
 {
-  QString name;
-  qint64 size;
-  double percent;
-  Object(QString name, int size, double percent):name(name), size(size), percent(percent){};
-  QString getName() {return name;};
-  qint64 getSize(){ return size;};
-  double getPer(){ return percent;};
+   QStringList name;
+   QVector<quint64> size;
+   QVector<double> percent;
 };
 
-class Strategy
+class Strateg
 {
 public:
-    Strategy(){};
-    virtual ~Strategy(){};
-    virtual void DoStrategy(QString&  path)=0;
+    virtual ~Strateg(){}
+    virtual void DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object& obj) = 0;
 };
 
+class strategy
+{
+private:
+    Strateg* strateg;
+public:
+    strategy(Strateg *strat): strateg(strat)
+    {
+
+    }
+    ~strategy()
+    {
+        delete strateg;
+    }
+    void DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object& obj)
+    {
+        strateg->DoStrategy(index, model, obj);
+    }
+};
 
 #endif // STRATEGY_H

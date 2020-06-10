@@ -1,16 +1,11 @@
 #ifndef FILETYPESTRATEGY_H
 #define FILETYPESTRATEGY_H
-#define FOLDERSTRATEGY_H
 #include "strategy.h"
 
-class FileTypeStrategy: public Strategy
+class fileTypeStrategy : public Strateg
 {
 public:
-  QVector<Object> objects;
-  FileTypeStrategy(){};
-  void DoStrategy(QString&  path);
-protected:
-  void sizeType(const QString &path, QHash<QString, int> &hash) ;
+    void DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object&);
 };
 
 #endif // FILETYPESTRATEGY_H

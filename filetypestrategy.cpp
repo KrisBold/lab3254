@@ -1,7 +1,6 @@
 #include "filetypestrategy.h"
-#include <QTextStream>
 
-void FileTypeStrategy::sizeType(const QString &path, QHash<QString, int> &hash)
+void sizeType(const QString &path, QHash<QString, int> &hash)
 {
     QDir currentFolder(path);
 
@@ -21,38 +20,35 @@ void FileTypeStrategy::sizeType(const QString &path, QHash<QString, int> &hash)
         hash[i.suffix()] += i.size();
     }
 }
-
-void FileTypeStrategy::DoStrategy (QString &path)
+//стратегия по типам
+void fileTypeStrategy::DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object& obj)
 {
+    obj.name.clear();
+    obj.size.clear();
+    obj.percent.clear();
+    QFileInfo fileinfo = model->fileInfo(index);
+    QDir currentFolder( fileinfo.filePath() );
+    currentFolder.setFilter( QDir::AllEntries);
+    currentFolder.setSorting( QDir::Name );
     QVector<QString> types;
     int finalSize = 0;
-    QDir currentFolder(path);
     QHash<QString, int> hash;
 
-    if (!currentFolder.exists())
-    {
-        return;
-    }
-
-    if (currentFolder.isEmpty())
-    {
-        objects.append(Object(path, 0, 100));
-        return;
-    }
-
-    if (QFileInfo(path).isDir())
+    if (QFileInfo(fileinfo.filePath()).isDir())
     {
         for(QFileInfo i: currentFolder.entryInfoList(QDir::Dirs))
         {
-            if (QFileInfo(path).dir().isEmpty())
+            if (QFileInfo(fileinfo.filePath()).dir().isEmpty())
             {
-                objects.append(Object(path, 0, 100));
+                obj.name<<fileinfo.filePath();
+                obj.percent<<100;
+                obj.size<<0;
                 return ;
             }
             QString iname( i.fileName() );
             if ( iname == "." || iname == ".." || iname.isEmpty() )
                 continue;
-            sizeType(path+"/"+iname, hash);
+            sizeType(fileinfo.filePath()+"/"+iname, hash);
         }
 
         for(QFileInfo i: currentFolder.entryInfoList(QDir::Files))
@@ -71,19 +67,51 @@ void FileTypeStrategy::DoStrategy (QString &path)
 
         for (int i = 0; i < types.size(); i++)
         {
-            objects.append(Object(types[i], hash[types[i]], ((double)hash[types[i]] / finalSize) * 100));
+            if(finalSize!=0)
+            {
+            obj.name<<types[i];
+            obj.size<< hash[types[i]];
+            obj.percent<<((double)hash[types[i]] / finalSize) * 100;
+            }
+            else
+            {
+            obj.name<<types[i];
+            obj.size<< hash[types[i]];
+            obj.percent<<100/obj.name.size();
+            }
         }
+        bool nol=false;
+        for (int j = 0; j < types.size(); j++)
+        {
+           for (int i = 0; i < types.size(); i++)
+           {
+               if(obj.size[i]==0)
+               {
+                   nol=true;
+               }
+               else { nol=false;break;}
+           }
+
+           if(nol==true)
+           {
+               obj.percent[j]=100/obj.name.size();
+           }
+        }
+
     }
 
     else
     {
-        objects.append(Object(QFileInfo(path).suffix(), path.size(), 100));
+        obj.name<<QFileInfo(fileinfo.filePath()).suffix();
+        obj.size<< fileinfo.filePath().size();
+        obj.percent<<100;
     }
 
-    if(objects.size()==0)
+    if(obj.name.size()==0)
     {
-        objects.append(Object(path, 0, 100));
+        obj.name<<"FOLDER EMPTY";
+        obj.size<< 0;
+        obj.percent<<100;
     }
 
 }
-
