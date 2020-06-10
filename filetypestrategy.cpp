@@ -69,15 +69,34 @@ void fileTypeStrategy::DoStrategy(const QModelIndex &index, QFileSystemModel *mo
         {
             if(finalSize!=0)
             {
-            obj.name<<types[i];
-            obj.size<< hash[types[i]];
-            obj.percent<<((double)hash[types[i]] / finalSize) * 100;
+                if(!types[i].isEmpty())
+                {
+                  obj.name<<types[i];
+                  obj.size<< hash[types[i]];
+                  obj.percent<<((double)hash[types[i]] / finalSize) * 100;
+                }
+                else
+                {
+                    obj.name<<"Без расширения";
+                    obj.size<< hash[types[i]];
+                    obj.percent<<((double)hash[types[i]] / finalSize) * 100;
+                }
+
             }
             else
             {
-            obj.name<<types[i];
-            obj.size<< hash[types[i]];
-            obj.percent<<100/obj.name.size();
+                if(!types[i].isEmpty())
+                {
+                   obj.name<<types[i];
+                   obj.size<< hash[types[i]];
+                   obj.percent<<100/obj.name.size();
+                }
+                else
+                {
+                    obj.name<<"Без расширения";
+                    obj.size<< hash[types[i]];
+                    obj.percent<<100/obj.name.size();
+                }
             }
         }
         bool nol=false;
