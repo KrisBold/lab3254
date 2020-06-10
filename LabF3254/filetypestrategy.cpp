@@ -109,7 +109,7 @@ void fileTypeStrategy::DoStrategy(const QModelIndex &index, QFileSystemModel *mo
 
     if(obj.name.size()==0)
     {
-        obj.name<<fileinfo.filePath();
+        obj.name<<"FOLDER EMPTY";
         obj.size<< 0;
         obj.percent<<100;
     }

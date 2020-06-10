@@ -106,4 +106,11 @@ void folderSrtategy::DoStrategy(const QModelIndex &index, QFileSystemModel *mode
             obj.percent[j]=100/obj.name.size();
         }
     }
+
+    if(obj.name.size()==0)
+    {
+        obj.name<<"FOLDER EMPTY";
+        obj.size<< 0;
+        obj.percent<<100;
+    }
 }

@@ -86,7 +86,6 @@ void FolderSrtategy::DoStrategy(QString&  path)
     }
     sizeFolder(path);
     double finalsize=0;
-    QTextStream cin(stdin), cout(stdout);
 
     for(auto j:objs)
     {
@@ -101,6 +100,5 @@ void FolderSrtategy::DoStrategy(QString&  path)
         }
         else j->percent=100;
     }
-
 }
 
