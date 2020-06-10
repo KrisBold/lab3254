@@ -37,7 +37,10 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QFileSystemModel *model;
-
+    Object obj;
+    QList<QString> DirList;
+    QVBoxLayout *vlayout = new QVBoxLayout;
+    QHBoxLayout *hlayout = new QHBoxLayout;
 };
 
 #endif // MAINWINDOW_H

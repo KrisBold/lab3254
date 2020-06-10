@@ -14,9 +14,9 @@
 #include "filetypestrategy.h"
 #include <QAbstractItemModel>
 
-Object obj;
+//наблюдатль и адаптер
+
 using namespace QtCharts;
-QList<QString> DirList;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -73,8 +73,6 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         delete p;
     }
 }
-QVBoxLayout *vlayout = new QVBoxLayout;
-QHBoxLayout *hlayout = new QHBoxLayout;
 
 void MainWindow::PrintTable(Ui::MainWindow *ui, Object obj)
 {
