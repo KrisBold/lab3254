@@ -13,9 +13,6 @@
 #include "foldersrtategy.h"
 #include "filetypestrategy.h"
 #include <QAbstractItemModel>
-
-//наблюдатль и адаптер
-
 using namespace QtCharts;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -45,29 +42,48 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_treeView_clicked(const QModelIndex &index)
+void MainWindow:: Folder()
+{
+  strat=new folderSrtategy();
+  strat->DoStrategy(ui->treeView->currentIndex(), model, obj);
+  if(ui->comboBox_2->currentText()=="таблица")
+      PrintTable(ui, obj);
+  if(ui->comboBox_2->currentText()=="диаграмма")
+      PrintPieChart(ui, obj);
+  if(ui->comboBox_2->currentText()=="гистограмма")
+      PrintBarChart(ui,obj);
+  delete strat;
+}
+
+void MainWindow:: FileType()
+{
+    strat=new fileTypeStrategy();
+    strat->DoStrategy(ui->treeView->currentIndex(), model, obj);
+    if(ui->comboBox_2->currentText()=="таблица")
+        PrintTable(ui, obj);
+    if(ui->comboBox_2->currentText()=="диаграмма")
+        PrintPieChart(ui, obj);
+    if(ui->comboBox_2->currentText()=="гистограмма")
+        PrintBarChart(ui,obj);
+    delete strat;
+}
+
+void MainWindow:: on_treeView(const QModelIndex &index)
 {
     QFileInfo fileinfo = model->fileInfo(index);
     if(ui->comboBox->currentText()=="по папкам")
     {
-        strat1.DoStrategy(ui->treeView->currentIndex(), model, obj);
-        if(ui->comboBox_2->currentText()=="таблица")
-            PrintTable(ui, obj);
-        if(ui->comboBox_2->currentText()=="диаграмма")
-            PrintPieChart(ui, obj);
-        if(ui->comboBox_2->currentText()=="гистограмма")
-            PrintBarChart(ui,obj);
+        Folder();
     }
     if(ui->comboBox->currentText()=="по файлам")
     {
-        strat2.DoStrategy(ui->treeView->currentIndex(), model, obj);
-        if(ui->comboBox_2->currentText()=="таблица")
-            PrintTable(ui, obj);
-        if(ui->comboBox_2->currentText()=="диаграмма")
-            PrintPieChart(ui, obj);
-        if(ui->comboBox_2->currentText()=="гистограмма")
-            PrintBarChart(ui,obj);
+        FileType();
     }
+}
+
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
+{
+   on_treeView(index);
 }
 
 void MainWindow::PrintTable(Ui::MainWindow *ui, Object obj)
@@ -208,48 +224,15 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 {
     if(arg1=="по папкам")
     {
-        strat1.DoStrategy(ui->treeView->currentIndex(), model, obj);
-        if(ui->comboBox_2->currentText()=="таблица")
-            PrintTable(ui, obj);
-        if(ui->comboBox_2->currentText()=="диаграмма")
-            PrintPieChart(ui, obj);
-        if(ui->comboBox_2->currentText()=="гистограмма")
-            PrintBarChart(ui,obj);
+        Folder();
     }
     if(arg1=="по файлам")
     {
-        strat2.DoStrategy(ui->treeView->currentIndex(), model, obj);
-        if(ui->comboBox_2->currentText()=="таблица")
-            PrintTable(ui, obj);
-        if(ui->comboBox_2->currentText()=="диаграмма")
-            PrintPieChart(ui, obj);
-        if(ui->comboBox_2->currentText()=="гистограмма")
-            PrintBarChart(ui,obj);
+       FileType();
     }
 }
 
 void MainWindow::reprint(const QModelIndex & index)
 {
-    QFileInfo fileinfo = model->fileInfo(index);
-    if(ui->comboBox->currentText()=="по папкам")
-    {
-        strat1.DoStrategy(ui->treeView->currentIndex(), model, obj);
-        if(ui->comboBox_2->currentText()=="таблица")
-            PrintTable(ui, obj);
-        if(ui->comboBox_2->currentText()=="диаграмма")
-            PrintPieChart(ui, obj);
-        if(ui->comboBox_2->currentText()=="гистограмма")
-            PrintBarChart(ui,obj);
-
-    }
-    if(ui->comboBox->currentText()=="по файлам")
-    {
-        strat2.DoStrategy(ui->treeView->currentIndex(), model, obj);
-        if(ui->comboBox_2->currentText()=="таблица")
-            PrintTable(ui, obj);
-        if(ui->comboBox_2->currentText()=="диаграмма")
-            PrintPieChart(ui, obj);
-        if(ui->comboBox_2->currentText()=="гистограмма")
-            PrintBarChart(ui,obj);
-    }
+   on_treeView(index);
 }

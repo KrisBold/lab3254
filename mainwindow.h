@@ -31,9 +31,10 @@ public slots:
     void on_treeView_clicked(const QModelIndex &index);
 
     void on_comboBox_2_currentTextChanged(const QString &arg1);
-
+    void  FileType();
+    void  Folder();
     void on_comboBox_currentTextChanged(const QString &arg1);
-
+    void  on_treeView(const QModelIndex &index);
     void reprint(const QModelIndex &);
 
 private:
@@ -43,8 +44,7 @@ private:
     QList<QString> DirList;
     QVBoxLayout *vlayout = new QVBoxLayout;
     QHBoxLayout *hlayout = new QHBoxLayout;
-    folderSrtategy strat1;
-    fileTypeStrategy strat2;
+    Strateg *strat;
 };
 
 #endif // MAINWINDOW_H

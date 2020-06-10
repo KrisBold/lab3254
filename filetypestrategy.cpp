@@ -20,6 +20,7 @@ void sizeType(const QString &path, QHash<QString, int> &hash)
         hash[i.suffix()] += i.size();
     }
 }
+
 //стратегия по типам
 void fileTypeStrategy::DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object& obj)
 {
