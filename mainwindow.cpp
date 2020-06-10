@@ -134,7 +134,7 @@ void MainWindow::PrintPieChart(Ui::MainWindow *ui,Object obj)
     QPieSeries *series = new QPieSeries();
     for(int i=0; i<obj.name.size(); i++)
     {
-        series->append(obj.name[i], obj.size[i]);
+        series->append(obj.name[i], obj.percent[i]);
     }
     QChart *chart = new QChart();
     chart->addSeries(series);
@@ -163,7 +163,7 @@ void MainWindow::PrintBarChart(Ui::MainWindow *ui,Object obj)
     for(int i=0; i<obj.name.size(); i++)
     {
         QBarSet *set0 = new QBarSet(obj.name[i]);
-        *set0<<obj.size[i];
+        *set0<<obj.percent[i];
         series->append(set0);
     }
     QChart *chart = new QChart();
