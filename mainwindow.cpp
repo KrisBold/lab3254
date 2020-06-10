@@ -50,27 +50,23 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
     QFileInfo fileinfo = model->fileInfo(index);
     if(ui->comboBox->currentText()=="по папкам")
     {
-        strategy* p = new  strategy(new folderSrtategy);
-        p->DoStrategy(ui->treeView->currentIndex(), model, obj);
+        strat1.DoStrategy(ui->treeView->currentIndex(), model, obj);
         if(ui->comboBox_2->currentText()=="таблица")
             PrintTable(ui, obj);
         if(ui->comboBox_2->currentText()=="диаграмма")
             PrintPieChart(ui, obj);
         if(ui->comboBox_2->currentText()=="гистограмма")
             PrintBarChart(ui,obj);
-        delete p;
     }
     if(ui->comboBox->currentText()=="по файлам")
     {
-        strategy* p = new  strategy(new fileTypeStrategy);
-        p->DoStrategy(ui->treeView->currentIndex(), model, obj);
+        strat2.DoStrategy(ui->treeView->currentIndex(), model, obj);
         if(ui->comboBox_2->currentText()=="таблица")
             PrintTable(ui, obj);
         if(ui->comboBox_2->currentText()=="диаграмма")
             PrintPieChart(ui, obj);
         if(ui->comboBox_2->currentText()=="гистограмма")
             PrintBarChart(ui,obj);
-        delete p;
     }
 }
 
@@ -212,27 +208,23 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 {
     if(arg1=="по папкам")
     {
-        strategy* p = new  strategy(new folderSrtategy);
-        p->DoStrategy(ui->treeView->currentIndex(), model, obj);
+        strat1.DoStrategy(ui->treeView->currentIndex(), model, obj);
         if(ui->comboBox_2->currentText()=="таблица")
             PrintTable(ui, obj);
         if(ui->comboBox_2->currentText()=="диаграмма")
             PrintPieChart(ui, obj);
         if(ui->comboBox_2->currentText()=="гистограмма")
             PrintBarChart(ui,obj);
-        delete p;
     }
     if(arg1=="по файлам")
     {
-        strategy* p = new  strategy(new fileTypeStrategy);
-        p->DoStrategy(ui->treeView->currentIndex(), model, obj);
+        strat2.DoStrategy(ui->treeView->currentIndex(), model, obj);
         if(ui->comboBox_2->currentText()=="таблица")
             PrintTable(ui, obj);
         if(ui->comboBox_2->currentText()=="диаграмма")
             PrintPieChart(ui, obj);
         if(ui->comboBox_2->currentText()=="гистограмма")
             PrintBarChart(ui,obj);
-        delete p;
     }
 }
 
@@ -241,26 +233,23 @@ void MainWindow::reprint(const QModelIndex & index)
     QFileInfo fileinfo = model->fileInfo(index);
     if(ui->comboBox->currentText()=="по папкам")
     {
-        strategy* p = new  strategy(new folderSrtategy);
-        p->DoStrategy(ui->treeView->currentIndex(), model, obj);
+        strat1.DoStrategy(ui->treeView->currentIndex(), model, obj);
         if(ui->comboBox_2->currentText()=="таблица")
             PrintTable(ui, obj);
         if(ui->comboBox_2->currentText()=="диаграмма")
             PrintPieChart(ui, obj);
         if(ui->comboBox_2->currentText()=="гистограмма")
             PrintBarChart(ui,obj);
-        delete p;
+
     }
     if(ui->comboBox->currentText()=="по файлам")
     {
-        strategy* p = new  strategy(new fileTypeStrategy);
-        p->DoStrategy(ui->treeView->currentIndex(), model, obj);
+        strat2.DoStrategy(ui->treeView->currentIndex(), model, obj);
         if(ui->comboBox_2->currentText()=="таблица")
             PrintTable(ui, obj);
         if(ui->comboBox_2->currentText()=="диаграмма")
             PrintPieChart(ui, obj);
         if(ui->comboBox_2->currentText()=="гистограмма")
             PrintBarChart(ui,obj);
-        delete p;
     }
 }

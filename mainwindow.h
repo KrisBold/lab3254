@@ -9,6 +9,8 @@
 #include "QChartView"
 #include "QChart"
 #include "strategy.h"
+#include "filetypestrategy.h"
+#include "foldersrtategy.h"
 
 namespace Ui {
 class MainWindow;
@@ -41,6 +43,8 @@ private:
     QList<QString> DirList;
     QVBoxLayout *vlayout = new QVBoxLayout;
     QHBoxLayout *hlayout = new QHBoxLayout;
+    folderSrtategy strat1;
+    fileTypeStrategy strat2;
 };
 
 #endif // MAINWINDOW_H

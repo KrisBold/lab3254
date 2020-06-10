@@ -19,23 +19,4 @@ public:
     virtual void DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object& obj) = 0;
 };
 
-class strategy
-{
-private:
-    Strateg* strateg;
-public:
-    strategy(Strateg *strat): strateg(strat)
-    {
-
-    }
-    ~strategy()
-    {
-        delete strateg;
-    }
-    void DoStrategy(const QModelIndex &index, QFileSystemModel *model, Object& obj)
-    {
-        strateg->DoStrategy(index, model, obj);
-    }
-};
-
 #endif // STRATEGY_H
