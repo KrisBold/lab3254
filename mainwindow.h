@@ -42,6 +42,10 @@ private:
        Pie,
        Bar
     };
+    enum NamePrint2 {
+        FOLDER,
+        FILETYPE
+    };
     Ui::MainWindow *ui;
     QFileSystemModel *model;
     Object obj;

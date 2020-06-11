@@ -74,13 +74,12 @@ void MainWindow:: FileType()
 void MainWindow::on_treeView_clicked(const QModelIndex &index)
 {
     QFileInfo fileinfo = model->fileInfo(index);
-    if(ui->comboBox->currentText()=="по папкам")
+    switch(ui->comboBox->currentIndex())
     {
-        Folder();
-    }
-    if(ui->comboBox->currentText()=="по файлам")
-    {
-        FileType();
+    case FOLDER:
+       return  Folder();
+    case FILETYPE:
+        return FileType();
     }
 }
 
