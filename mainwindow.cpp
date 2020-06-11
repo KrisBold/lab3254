@@ -12,6 +12,7 @@
 #include "strategy.h"
 #include "foldersrtategy.h"
 #include "filetypestrategy.h"
+#include "methodprint.h"
 #include <QAbstractItemModel>
 using namespace QtCharts;
 
@@ -88,118 +89,24 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
 
 void MainWindow::PrintTable(Ui::MainWindow *ui, Object obj)
 {
-    QTableView * tableView;
-    tableView = new QTableView(ui->widget);
-    //Заголовки столбцов
-    QStringList horizontalHeader;
-    horizontalHeader.append("Имя");
-    horizontalHeader.append("Размер");
-    horizontalHeader.append("Процент");
-    QStandardItemModel *Tmodel = new QStandardItemModel;
-    QStandardItem *item;
-    Tmodel->setHorizontalHeaderLabels(horizontalHeader);
-    int rowcounter = 0;
-    for(int i=0; i<obj.size.size(); i++)
-    {
-            item = new QStandardItem(obj.name[i]);
-            Tmodel->setItem(rowcounter, 0, item);
 
-            item = new QStandardItem(QString::number(obj.size[i]));
-            Tmodel->setItem(rowcounter, 1, item);
-
-            if(obj.percent[i]<0.01 && obj.percent[i]!=0)
-            {
-               item = new QStandardItem("<0.01%");
-               Tmodel->setItem(rowcounter, 2, item);
-            }
-            else
-            {
-                item = new QStandardItem(QString::number(obj.percent[i],'f', 2)+"%");
-                Tmodel->setItem(rowcounter, 2, item);
-            }
-            rowcounter++;
-    }
-    tableView->setModel(Tmodel);
-    tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
-    tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
-    tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
-
-    if(vlayout->count()!=0)
-    {
-        while(vlayout->count())
-        {
-          vlayout->removeItem(vlayout->itemAt(0));
-        }
-    }
-    vlayout->setMargin(0);
-    hlayout->setMargin(0);
-    vlayout->addLayout(hlayout);
-    vlayout->addWidget(tableView);
+    print= new TableBridge();
+    print->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
-
 }
 
 void MainWindow::PrintPieChart(Ui::MainWindow *ui,Object obj)
 {
-    QPieSeries *series = new QPieSeries();
-    for(int i=0; i<obj.name.size(); i++)
-    {
-        series->append(obj.name[i], obj.percent[i]);
-    }
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setAnimationOptions(QChart::SeriesAnimations);
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    if(vlayout->count()!=0)
-    {
-        while(vlayout->count())
-        {
-          vlayout->removeItem(vlayout->itemAt(0));
-        }
-    }
-    vlayout->setMargin(0);
-    hlayout->setMargin(0);
-    vlayout->addLayout(hlayout);
-    vlayout->addWidget(chartView);
+    print= new PieBridge();
+    print->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
-
 }
+
 //вывод инвормации в виде гистограммы
 void MainWindow::PrintBarChart(Ui::MainWindow *ui,Object obj)
 {
-    QBarSeries *series = new QBarSeries();
-    for(int i=0; i<obj.name.size(); i++)
-    {
-        QBarSet *set0 = new QBarSet(obj.name[i]);
-        *set0<<obj.percent[i];
-        series->append(set0);
-    }
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setAnimationOptions(QChart::SeriesAnimations);
-    QValueAxis *axisY = new QValueAxis();
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
-
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    if(vlayout->count()!=0)
-    {
-        while(vlayout->count())
-        {
-          vlayout->removeItem(vlayout->itemAt(0));
-        }
-    }
-    vlayout->setMargin(0);
-    hlayout->setMargin(0);
-    vlayout->addLayout(hlayout);
-    vlayout->addWidget(chartView);
+    print= new BarBridge();
+    print->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
 }
 

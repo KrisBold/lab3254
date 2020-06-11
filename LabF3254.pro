@@ -29,12 +29,14 @@ SOURCES += \
         filetypestrategy.cpp \
         foldersrtategy.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        methodprint.cpp
 
 HEADERS += \
     filetypestrategy.h \
     foldersrtategy.h \
         mainwindow.h \
+    methodprint.h \
     piechart.h \
     strategy.h
 

@@ -11,6 +11,7 @@
 #include "strategy.h"
 #include "filetypestrategy.h"
 #include "foldersrtategy.h"
+#include "methodprint.h"
 
 namespace Ui {
 class MainWindow;
@@ -42,9 +43,10 @@ private:
     QFileSystemModel *model;
     Object obj;
     QList<QString> DirList;
-    QVBoxLayout *vlayout = new QVBoxLayout;
     QHBoxLayout *hlayout = new QHBoxLayout;
+    QVBoxLayout *vlayout = new QVBoxLayout;
     Strateg *strat;
+    AbstractBridge *print;
 };
 
 #endif // MAINWINDOW_H
