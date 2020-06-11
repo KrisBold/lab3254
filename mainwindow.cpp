@@ -45,30 +45,31 @@ MainWindow::~MainWindow()
 
 void MainWindow:: Folder()
 {
-  strat=new folderSrtategy();
-  strat->DoStrategy(ui->treeView->currentIndex(), model, obj);
-  if(ui->comboBox_2->currentText()=="таблица")
-      PrintTable(ui, obj);
-  if(ui->comboBox_2->currentText()=="диаграмма")
-      PrintPieChart(ui, obj);
-  if(ui->comboBox_2->currentText()=="гистограмма")
-      PrintBarChart(ui,obj);
-  delete strat;
+  strat1->DoStrategy(ui->treeView->currentIndex(), model, obj);
+  switch(ui->comboBox_2->currentIndex())
+  {
+  case Table:
+      return PrintTable(ui, obj);
+  case Pie:
+      return PrintPieChart(ui, obj);
+  case Bar:
+      return PrintBarChart(ui,obj);
+  }
 }
 
 void MainWindow:: FileType()
 {
-    strat=new fileTypeStrategy();
-    strat->DoStrategy(ui->treeView->currentIndex(), model, obj);
-    if(ui->comboBox_2->currentText()=="таблица")
-        PrintTable(ui, obj);
-    if(ui->comboBox_2->currentText()=="диаграмма")
-        PrintPieChart(ui, obj);
-    if(ui->comboBox_2->currentText()=="гистограмма")
-        PrintBarChart(ui,obj);
-    delete strat;
+    strat2->DoStrategy(ui->treeView->currentIndex(), model, obj);
+    switch(ui->comboBox_2->currentIndex())
+    {
+    case Table:
+       return  PrintTable(ui, obj);
+    case Pie:
+       return  PrintPieChart(ui, obj);
+    case Bar:
+       return  PrintBarChart(ui,obj);
+    }
 }
-
 
 void MainWindow::on_treeView_clicked(const QModelIndex &index)
 {
@@ -85,30 +86,22 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
 
 void MainWindow::PrintTable(Ui::MainWindow *ui, Object obj)
 {
-    print= new TableBridge();
-    print->UpdateData(obj, hlayout, vlayout);
+    print1->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
-    delete print;
 }
 
 void MainWindow::PrintPieChart(Ui::MainWindow *ui,Object obj)
 {
-    print= new PieBridge();
-    print->UpdateData(obj, hlayout, vlayout);
+    print2->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
-    delete print;
 }
 
-//вывод инвормации в виде гистограммы
 void MainWindow::PrintBarChart(Ui::MainWindow *ui,Object obj)
 {
-    print= new BarBridge();
-    print->UpdateData(obj, hlayout, vlayout);
+    print3->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
-    delete print;
 }
 
-//изменение вида вывода информации
 void MainWindow::on_comboBox_2_currentTextChanged(const QString &arg1)
 {
     if(arg1=="таблица")

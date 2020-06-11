@@ -37,14 +37,22 @@ public slots:
     void on_comboBox_currentTextChanged(const QString &arg1);
 
 private:
+    enum NamePrint {
+       Table,
+       Pie,
+       Bar
+    };
     Ui::MainWindow *ui;
     QFileSystemModel *model;
     Object obj;
     QList<QString> DirList;
     QHBoxLayout *hlayout = new QHBoxLayout;
     QVBoxLayout *vlayout = new QVBoxLayout;
-    Strateg *strat;
-    AbstractBridge *print;
+    Strateg *strat2=new fileTypeStrategy();
+    Strateg *strat1=new folderSrtategy();
+    AbstractBridge *print1= new TableBridge();
+    AbstractBridge *print2= new PieBridge();
+    AbstractBridge *print3= new BarBridge();
 };
 
 #endif // MAINWINDOW_H
