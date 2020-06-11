@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->widget->setContentsMargins(0,0,0,0);
     ui->treeView->model()->dataChanged(ui->treeView->currentIndex(), ui->treeView->currentIndex());
-    QObject::connect(model,SIGNAL(dataChanged ( const QModelIndex &, const QModelIndex &)),this, SLOT(reprint(const QModelIndex &)));
+    QObject::connect(model,SIGNAL(dataChanged ( const QModelIndex &, const QModelIndex &)),this, SLOT(on_treeView_clicked(const QModelIndex &)));
 }
 
 MainWindow::~MainWindow()
@@ -69,7 +69,8 @@ void MainWindow:: FileType()
     delete strat;
 }
 
-void MainWindow:: on_treeView(const QModelIndex &index)
+
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
 {
     QFileInfo fileinfo = model->fileInfo(index);
     if(ui->comboBox->currentText()=="по папкам")
@@ -82,17 +83,12 @@ void MainWindow:: on_treeView(const QModelIndex &index)
     }
 }
 
-void MainWindow::on_treeView_clicked(const QModelIndex &index)
-{
-   on_treeView(index);
-}
-
 void MainWindow::PrintTable(Ui::MainWindow *ui, Object obj)
 {
-
     print= new TableBridge();
     print->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
+    delete print;
 }
 
 void MainWindow::PrintPieChart(Ui::MainWindow *ui,Object obj)
@@ -100,6 +96,7 @@ void MainWindow::PrintPieChart(Ui::MainWindow *ui,Object obj)
     print= new PieBridge();
     print->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
+    delete print;
 }
 
 //вывод инвормации в виде гистограммы
@@ -108,6 +105,7 @@ void MainWindow::PrintBarChart(Ui::MainWindow *ui,Object obj)
     print= new BarBridge();
     print->UpdateData(obj, hlayout, vlayout);
     ui->widget->setLayout(vlayout);
+    delete print;
 }
 
 //изменение вида вывода информации
@@ -139,7 +137,3 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
     }
 }
 
-void MainWindow::reprint(const QModelIndex & index)
-{
-   on_treeView(index);
-}

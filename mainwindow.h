@@ -35,8 +35,6 @@ public slots:
     void  FileType();
     void  Folder();
     void on_comboBox_currentTextChanged(const QString &arg1);
-    void  on_treeView(const QModelIndex &index);
-    void reprint(const QModelIndex &);
 
 private:
     Ui::MainWindow *ui;
