@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     chart->legend()->setAlignment(Qt::AlignBottom);
     chartView->setRenderHint(QPainter::Antialiasing);
 
+    chartView->hide();
     vlayout->addWidget(tableView);
 
     ui->widget->setLayout(vlayout);
