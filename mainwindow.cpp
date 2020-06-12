@@ -20,6 +20,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    hlayout = new QHBoxLayout;
+    vlayout = new QVBoxLayout;
+
+    strat2=new fileTypeStrategy();
+    strat1=new folderSrtategy();
+    chart = new QtCharts::QChart();
+    chartView = new QtCharts::QChartView(chart);
+    tableView = new QTableView();
+    Tmodel = new QStandardItemModel;
+
+    axisY = new QtCharts::QValueAxis();
+    print1= new TableBridge(Tmodel,tableView);
+    print2= new PieBridge(chartView, chart);
+    print3= new BarBridge(chartView, chart, axisY);
+
     ui->setupUi(this);
     model = new QFileSystemModel(this);
     model->setFilter(QDir::AllEntries|QDir::NoDotAndDotDot);
@@ -46,29 +61,13 @@ MainWindow::~MainWindow()
 void MainWindow:: Folder()
 {
   strat1->DoStrategy(ui->treeView->currentIndex(), model, obj);
-  switch(ui->comboBox_2->currentIndex())
-  {
-  case Table:
-      return PrintTable(ui, obj);
-  case Pie:
-      return PrintPieChart(ui, obj);
-  case Bar:
-      return PrintBarChart(ui,obj);
-  }
+  changePercentageDisplay();
 }
 
 void MainWindow:: FileType()
 {
     strat2->DoStrategy(ui->treeView->currentIndex(), model, obj);
-    switch(ui->comboBox_2->currentIndex())
-    {
-    case Table:
-       return  PrintTable(ui, obj);
-    case Pie:
-       return  PrintPieChart(ui, obj);
-    case Bar:
-       return  PrintBarChart(ui,obj);
-    }
+    changePercentageDisplay();
 }
 
 void MainWindow::on_treeView_clicked(const QModelIndex &index)
@@ -79,42 +78,61 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
     case FOLDER:
        return  Folder();
     case FILETYPE:
-        return FileType();
+       return FileType();
     }
 }
 
-void MainWindow::PrintTable(Ui::MainWindow *ui, Object obj)
+void MainWindow:: changePercentageDisplay()
 {
-    print1->UpdateData(obj, hlayout, vlayout);
-    ui->widget->setLayout(vlayout);
-}
-
-void MainWindow::PrintPieChart(Ui::MainWindow *ui,Object obj)
-{
-    print2->UpdateData(obj, hlayout, vlayout);
-    ui->widget->setLayout(vlayout);
-}
-
-void MainWindow::PrintBarChart(Ui::MainWindow *ui,Object obj)
-{
-    print3->UpdateData(obj, hlayout, vlayout);
-    ui->widget->setLayout(vlayout);
-}
-
-void MainWindow::on_comboBox_2_currentTextChanged(const QString &arg1)
-{
-    if(arg1=="таблица")
+    switch(ui->comboBox_2->currentIndex())
     {
-        PrintTable(ui, obj);
+    case Table:
+       print1->UpdateData(obj);break;
+    case Pie:
+       print2->UpdateData(obj);break;
+    case Bar:
+       print3->UpdateData(obj);break;
     }
-    if(arg1=="диаграмма")
-    {
-        PrintPieChart(ui, obj);
-    }
-    if(arg1=="гистограмма")
-    {
-        PrintBarChart(ui,obj);
-    }
+
+   if(chartView->isVisible() && ui->comboBox_2->currentIndex()==Table)
+   {
+     tableView->show();
+     chartView->hide();
+   }
+   else if(tableView->isVisible() && (ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar))
+   {
+       chartView->show();
+       tableView->hide();
+   }
+
+   if(vlayout->count()!=0)
+      {
+          while(vlayout->count())
+          {
+            vlayout->removeItem(vlayout->itemAt(0));
+          }
+      }
+
+   vlayout->setMargin(0);
+   hlayout->setMargin(0);
+   vlayout->addLayout(hlayout);
+
+   if(ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar)
+   {
+       vlayout->addWidget(chartView);
+   }
+
+   else if(ui->comboBox_2->currentIndex()==Table)
+   {
+       vlayout->addWidget(tableView);
+   }
+
+   ui->widget->setLayout(vlayout);
+}
+
+void MainWindow::on_comboBox_2_currentTextChanged()
+{
+   changePercentageDisplay();
 }
 
 void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)

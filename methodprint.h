@@ -13,36 +13,50 @@
 #include <QtCharts/QPieSlice>
 #include <QtCharts/QChart>
 #include "QGridLayout"
+#include "QBarSet"
+#include "QBarSeries"
+#include "QBarCategoryAxis"
 
 class AbstractBridge
 {
 public:
     AbstractBridge() {};
-    virtual void UpdateData(Object obj,QHBoxLayout *hlayout, QVBoxLayout *vlayout) = 0;
+    virtual void UpdateData(Object obj) = 0;
     virtual ~AbstractBridge() {};
-
 };
-
 
 class TableBridge : public AbstractBridge
 {
 public:
-    void UpdateData( Object obj,QHBoxLayout *hlayout, QVBoxLayout *vlayout);
+    TableBridge(QStandardItemModel *Tmodel,QTableView * tableView):Tmodel_(Tmodel), tableView_(tableView){};
+    void UpdateData( Object obj);
     ~TableBridge(){};
+private:
+    QStandardItemModel *Tmodel_;
+    QTableView * tableView_;
 };
 
 class PieBridge : public AbstractBridge
 {
 public:
-    void UpdateData(Object obj,QHBoxLayout *hlayout, QVBoxLayout *vlayout);
+    PieBridge(QtCharts::QChartView *chartView,QtCharts::QChart *chart):chartView_(chartView),chart_(chart){};
+    void UpdateData(Object obj);
     ~PieBridge(){};
+private:
+    QtCharts::QChartView *chartView_;
+    QtCharts::QChart *chart_;
 };
 
 class BarBridge : public AbstractBridge
 {
 public:
-    void UpdateData(Object obj,QHBoxLayout *hlayout, QVBoxLayout *vlayout);
+    BarBridge(QtCharts::QChartView *chartView,QtCharts::QChart *chart, QtCharts::QValueAxis *axisY):chartView_(chartView),chart_(chart),axisY_(axisY){};
+    void UpdateData(Object obj);
     ~BarBridge(){};
+private:
+    QtCharts::QChartView *chartView_;
+    QtCharts::QChart *chart_;
+    QtCharts::QValueAxis *axisY_;
 };
 
 #endif // METHODPRINT_H

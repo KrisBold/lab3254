@@ -25,15 +25,12 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void PrintTable(Ui::MainWindow *ui,Object obj);
-    void PrintPieChart(Ui::MainWindow *ui,Object obj);
-    void PrintBarChart(Ui::MainWindow *ui,Object obj);
 public slots:
     void on_treeView_clicked(const QModelIndex &index);
-
-    void on_comboBox_2_currentTextChanged(const QString &arg1);
+    void on_comboBox_2_currentTextChanged();
     void  FileType();
     void  Folder();
+    void changePercentageDisplay();
     void on_comboBox_currentTextChanged(const QString &arg1);
 
 private:
@@ -42,21 +39,30 @@ private:
        Pie,
        Bar
     };
+
     enum NamePrint2 {
         FOLDER,
         FILETYPE
     };
+
     Ui::MainWindow *ui;
     QFileSystemModel *model;
     Object obj;
-    QList<QString> DirList;
-    QHBoxLayout *hlayout = new QHBoxLayout;
-    QVBoxLayout *vlayout = new QVBoxLayout;
-    Strateg *strat2=new fileTypeStrategy();
-    Strateg *strat1=new folderSrtategy();
-    AbstractBridge *print1= new TableBridge();
-    AbstractBridge *print2= new PieBridge();
-    AbstractBridge *print3= new BarBridge();
+    QHBoxLayout *hlayout;
+    QVBoxLayout *vlayout;
+
+    Strateg *strat2;
+    Strateg *strat1;
+    QStandardItemModel *Tmodel;
+    AbstractBridge *print1;
+    AbstractBridge *print2;
+    AbstractBridge *print3;
+
+
+    QtCharts::QValueAxis *axisY;
+    QtCharts::QChart *chart;
+    QtCharts::QChartView *chartView;
+    QTableView * tableView ;
 };
 
 #endif // MAINWINDOW_H
