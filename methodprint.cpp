@@ -46,10 +46,6 @@ void TableBridge:: UpdateData(Object obj)
        }
        rowcounter++;
     }
-    tableView_->setModel(Tmodel_);
-    tableView_->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
-    tableView_->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
-    tableView_->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
 }
 
 void PieBridge:: UpdateData(Object obj)
@@ -61,8 +57,6 @@ void PieBridge:: UpdateData(Object obj)
         series->append(obj.name[i], obj.percent[i]);
     }
     chart_->addSeries(series);
-    chart_->setAnimationOptions(QtCharts::QChart::SeriesAnimations);
-    chartView_->setRenderHint(QPainter::Antialiasing);
 }
 
 void BarBridge:: UpdateData(Object obj)
@@ -76,10 +70,5 @@ void BarBridge:: UpdateData(Object obj)
         series->append(set0);
     }
     chart_->addSeries(series);
-    chart_->setAnimationOptions(QtCharts::QChart::SeriesAnimations);
-    chart_->addAxis(axisY_, Qt::AlignLeft);
     series->attachAxis(axisY_);
-    chart_->legend()->setVisible(true);
-    chart_->legend()->setAlignment(Qt::AlignBottom);
-    chartView_->setRenderHint(QPainter::Antialiasing);
 }

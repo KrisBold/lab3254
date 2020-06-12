@@ -51,6 +51,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->setContentsMargins(0,0,0,0);
     ui->treeView->model()->dataChanged(ui->treeView->currentIndex(), ui->treeView->currentIndex());
     QObject::connect(model,SIGNAL(dataChanged ( const QModelIndex &, const QModelIndex &)),this, SLOT(on_treeView_clicked(const QModelIndex &)));
+    tableView->setModel(Tmodel);
+    tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+    tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+    tableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
+    chart->setAnimationOptions(QtCharts::QChart::SeriesAnimations);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+    chartView->setRenderHint(QPainter::Antialiasing);
 }
 
 MainWindow::~MainWindow()
