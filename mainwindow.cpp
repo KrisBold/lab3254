@@ -128,18 +128,6 @@ void MainWindow:: changePercentageDisplay()
        tableView->hide();
    }
 
-   if(vlayout->count()!=0)
-      {
-          while(vlayout->count())
-          {
-            vlayout->removeItem(vlayout->itemAt(0));
-          }
-      }
-
-   vlayout->setMargin(0);
-   hlayout->setMargin(0);
-   vlayout->addLayout(hlayout);
-
    if(ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar)
    {
        vlayout->addWidget(chartView);
@@ -150,7 +138,7 @@ void MainWindow:: changePercentageDisplay()
        vlayout->addWidget(tableView);
    }
 
-   ui->widget->setLayout(vlayout);
+
 }
 
 void MainWindow::on_comboBox_2_currentTextChanged()
