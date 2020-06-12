@@ -60,15 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     chart->legend()->setAlignment(Qt::AlignBottom);
     chartView->setRenderHint(QPainter::Antialiasing);
 
-    if(ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar)
-    {
-        vlayout->addWidget(chartView);
-    }
-
-    else if(ui->comboBox_2->currentIndex()==Table)
-    {
-        vlayout->addWidget(tableView);
-    }
+    vlayout->addWidget(tableView);
 
     ui->widget->setLayout(vlayout);
 }
