@@ -46,6 +46,7 @@ void TableBridge:: UpdateData(Object obj)
        }
        rowcounter++;
     }
+
 }
 
 void PieBridge:: UpdateData(Object obj)

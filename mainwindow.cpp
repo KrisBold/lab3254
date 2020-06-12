@@ -31,9 +31,9 @@ MainWindow::MainWindow(QWidget *parent) :
     Tmodel = new QStandardItemModel;
 
     axisY = new QtCharts::QValueAxis();
-    print1= new TableBridge(Tmodel,tableView);
-    print2= new PieBridge(chartView, chart);
-    print3= new BarBridge(chartView, chart, axisY);
+    print1= new TableBridge(Tmodel);
+    print2= new PieBridge(chart);
+    print3= new BarBridge(chart, axisY);
 
     ui->setupUi(this);
     model = new QFileSystemModel(this);
@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->setContentsMargins(0,0,0,0);
     ui->treeView->model()->dataChanged(ui->treeView->currentIndex(), ui->treeView->currentIndex());
     QObject::connect(model,SIGNAL(dataChanged ( const QModelIndex &, const QModelIndex &)),this, SLOT(on_treeView_clicked(const QModelIndex &)));
+
     tableView->setModel(Tmodel);
     tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
     tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
@@ -65,6 +66,19 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete model;
+    delete hlayout;
+    delete vlayout;
+    delete strat2;
+    delete strat1;
+    delete Tmodel;
+    delete print1;
+    delete print2;
+    delete print3;
+    delete axisY;
+    delete chart;
+    delete chartView;
+    delete tableView ;
 }
 
 void MainWindow:: Folder()
@@ -98,9 +112,9 @@ void MainWindow:: changePercentageDisplay()
     case Table:
        print1->UpdateData(obj);break;
     case Pie:
-       print2->UpdateData(obj);break;
+       {print2->UpdateData(obj); axisY->hide();break;}
     case Bar:
-       print3->UpdateData(obj);break;
+       {print3->UpdateData(obj); axisY->show();break;}
     }
 
    if(chartView->isVisible() && ui->comboBox_2->currentIndex()==Table)

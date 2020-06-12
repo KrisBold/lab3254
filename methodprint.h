@@ -28,33 +28,30 @@ public:
 class TableBridge : public AbstractBridge
 {
 public:
-    TableBridge(QStandardItemModel *Tmodel,QTableView * tableView):Tmodel_(Tmodel), tableView_(tableView){};
+    TableBridge(QStandardItemModel *Tmodel):Tmodel_(Tmodel){};
     void UpdateData( Object obj);
     ~TableBridge(){};
 private:
     QStandardItemModel *Tmodel_;
-    QTableView * tableView_;
 };
 
 class PieBridge : public AbstractBridge
 {
 public:
-    PieBridge(QtCharts::QChartView *chartView,QtCharts::QChart *chart):chartView_(chartView),chart_(chart){};
+    PieBridge(QtCharts::QChart *chart):chart_(chart){};
     void UpdateData(Object obj);
     ~PieBridge(){};
 private:
-    QtCharts::QChartView *chartView_;
     QtCharts::QChart *chart_;
 };
 
 class BarBridge : public AbstractBridge
 {
 public:
-    BarBridge(QtCharts::QChartView *chartView,QtCharts::QChart *chart, QtCharts::QValueAxis *axisY):chartView_(chartView),chart_(chart),axisY_(axisY){};
+    BarBridge(QtCharts::QChart *chart, QtCharts::QValueAxis *axisY):chart_(chart),axisY_(axisY){};
     void UpdateData(Object obj);
     ~BarBridge(){};
 private:
-    QtCharts::QChartView *chartView_;
     QtCharts::QChart *chart_;
     QtCharts::QValueAxis *axisY_;
 };
