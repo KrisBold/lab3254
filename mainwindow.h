@@ -48,17 +48,13 @@ private:
     Ui::MainWindow *ui;
     QFileSystemModel *model;
     Object obj;
-    QHBoxLayout *hlayout;
     QVBoxLayout *vlayout;
-
     Strateg *strat2;
     Strateg *strat1;
     QStandardItemModel *Tmodel;
     AbstractBridge *print1;
     AbstractBridge *print2;
     AbstractBridge *print3;
-
-
     QtCharts::QValueAxis *axisY;
     QtCharts::QChart *chart;
     QtCharts::QChartView *chartView;

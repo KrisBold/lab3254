@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    hlayout = new QHBoxLayout;
     vlayout = new QVBoxLayout;
 
     strat2=new fileTypeStrategy();
@@ -67,7 +66,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete model;
-    delete hlayout;
     delete vlayout;
     delete strat2;
     delete strat1;
@@ -138,7 +136,7 @@ void MainWindow:: changePercentageDisplay()
        vlayout->addWidget(tableView);
    }
 
-
+   ui->widget->setLayout(vlayout);
 }
 
 void MainWindow::on_comboBox_2_currentTextChanged()
