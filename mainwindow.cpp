@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     vlayout = new QVBoxLayout;
-
     strat2=new fileTypeStrategy();
     strat1=new folderSrtategy();
     chart = new QtCharts::QChart();
@@ -50,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->setContentsMargins(0,0,0,0);
     ui->treeView->model()->dataChanged(ui->treeView->currentIndex(), ui->treeView->currentIndex());
     QObject::connect(model,SIGNAL(dataChanged ( const QModelIndex &, const QModelIndex &)),this, SLOT(on_treeView_clicked(const QModelIndex &)));
-
+    vlayout->addWidget(chartView);
     tableView->setModel(Tmodel);
     tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
     tableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
@@ -60,6 +59,18 @@ MainWindow::MainWindow(QWidget *parent) :
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
     chartView->setRenderHint(QPainter::Antialiasing);
+
+    if(ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar)
+    {
+        vlayout->addWidget(chartView);
+    }
+
+    else if(ui->comboBox_2->currentIndex()==Table)
+    {
+        vlayout->addWidget(tableView);
+    }
+
+    ui->widget->setLayout(vlayout);
 }
 
 MainWindow::~MainWindow()
@@ -117,26 +128,14 @@ void MainWindow:: changePercentageDisplay()
 
    if(chartView->isVisible() && ui->comboBox_2->currentIndex()==Table)
    {
-     tableView->show();
-     chartView->hide();
+       tableView->show();
+       chartView->hide();
    }
    else if(tableView->isVisible() && (ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar))
    {
        chartView->show();
        tableView->hide();
    }
-
-   if(ui->comboBox_2->currentIndex()==Pie || ui->comboBox_2->currentIndex()==Bar)
-   {
-       vlayout->addWidget(chartView);
-   }
-
-   else if(ui->comboBox_2->currentIndex()==Table)
-   {
-       vlayout->addWidget(tableView);
-   }
-
-   ui->widget->setLayout(vlayout);
 }
 
 void MainWindow::on_comboBox_2_currentTextChanged()
